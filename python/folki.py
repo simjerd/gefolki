@@ -3,7 +3,7 @@ from rank import rank_inf as rank_filter_inf
 from rank import rank_sup as rank_filter_sup
 from primitive import conv2bis, interp2
 import scipy
-from skimage import exposure
+from skimage import exposure, transform
 
 
 def conv2SepMatlabbis(I, fen):
@@ -117,20 +117,17 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     res_y = y % 8
     add_y = 8 - y % 8 if res_y > 0 else 0
 
-    if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I0, (y+add_y, x+add_x), 'bilinear')
-    else:
-        toto = I0
-
-    toto = toto*255
-    toto = toto.astype(np.uint8)
-    H0 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+    H0 = I0
 
     if res_x > 0 or res_y > 0:
-        H0 = scipy.misc.imresize(H0, (y, x), 'bilinear')
+        H0 = transform.resize(H0, (y+add_y, x+add_x), mode='constant', order=1)
 
     H0 = H0.astype(np.float32)
-    H0 = H0/H0.max()
+    H0 = H0 / H0.max()
+    H0 = exposure.equalize_adapthist(H0, 8, clip_limit=1, nbins=256)
+
+    if res_x > 0 or res_y > 0:
+        H0 = transform.resize(H0, (y, x), mode='constant', order=1)
 
     x = I1.shape[1]
     res_x = x % 8
@@ -140,20 +137,17 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     res_y = y % 8
     add_y = 8 - y % 8 if res_y > 0 else 0
 
-    if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I1, (y+add_y, x+add_x), 'bilinear')
-    else:
-        toto = I1
-
-    toto = toto*255
-    toto = toto.astype(np.uint8)
-    H1 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+    H1 = I1
 
     if res_x > 0 or res_y > 0:
-        H1 = scipy.misc.imresize(H1, (y, x), 'bilinear')
+        H1 = transform.resize(H1, (y+add_y, x+add_x), mode='constant', order=1)
 
     H1 = H1.astype(np.float32)
-    H1 = H1/H1.max()
+    H1 = H1 / H0.max()
+    H1 = exposure.equalize_adapthist(H1, 8, clip_limit=1, nbins=256)
+
+    if res_x > 0 or res_y > 0:
+        H1 = transform.resize(H1, (y, x), mode='constant', order=1)
 
     if uinit is None:
         u = np.zeros(I0.shape)
