@@ -46,8 +46,9 @@ def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None
         it = I0 - i1w + u*Ix + v*Iy
         Ixt = W(Ix * it)
         Iyt = W(Iy * it)
-        u = (Iyy * Ixt - Ixy * Iyt)/D
-        v = (Ixx * Iyt - Ixy * Ixt)/D
+        with np.errstate(divide='ignore', invalid='ignore'):
+            u = (Iyy * Ixt - Ixy * Iyt)/D
+            v = (Ixx * Iyt - Ixy * Ixt)/D
         unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
         u[unvalid] = 0
         v[unvalid] = 0
@@ -89,8 +90,9 @@ def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None,vinit=None
             it = I0 - i1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
             Iyt = W(Iy * it)
-            u = (Iyy * Ixt - Ixy * Iyt)/D
-            v = (Ixx * Iyt - Ixy * Ixt)/D
+            with np.errstate(divide='ignore', invalid='ignore'):
+                u = (Iyy * Ixt - Ixy * Iyt)/D
+                v = (Ixx * Iyt - Ixy * Ixt)/D
             unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
             u[unvalid] = 0
             v[unvalid] = 0
@@ -199,8 +201,9 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
             it = R0 - R1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
             Iyt = W(Iy * it)
-            u = (Iyy * Ixt - Ixy * Iyt)/D
-            v = (Ixx * Iyt - Ixy * Ixt)/D
+            with np.errstate(divide='ignore', invalid='ignore'):
+                u = (Iyy * Ixt - Ixy * Iyt)/D
+                v = (Ixx * Iyt - Ixy * Ixt)/D
             unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
             u[unvalid] = 0
             v[unvalid] = 0
