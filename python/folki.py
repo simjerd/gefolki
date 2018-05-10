@@ -118,7 +118,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     if res_x > 0 or res_y > 0:
         H0 = transform.resize(I0, (y+add_y, x+add_x), preserve_range=True, mode='constant', order=1)
 
-    H0 = np.UINT8(255 * H0 / np.amax(H0))
+    H0 = np.uint8(255 * H0 / np.amax(H0))
     H0 = exposure.equalize_adapthist(H0, 8, clip_limit=1, nbins=256)
 
     if res_x > 0 or res_y > 0:
