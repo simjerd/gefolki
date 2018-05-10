@@ -1,7 +1,7 @@
 
 import numpy as np
-from primitive import *
-from PIL import Image
+from primitive import conv2bis
+
 
 class BurtOF:
     def __init__(self, flow, levels=4):
@@ -18,7 +18,6 @@ class BurtOF:
         Py0 = [I0]
         Py1 = [I1]
 
-        compt = 1
         for i in range(self.levels, 0, -1):
             Py0.append(self.pyrUp(Py0[-1]))
             Py1.append(self.pyrUp(Py1[-1]))

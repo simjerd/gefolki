@@ -1,9 +1,9 @@
 import numpy as np
 from rank import rank_inf as rank_filter_inf
 from rank import rank_sup as rank_filter_sup
-from PIL import Image
-from primitive import *
+from primitive import conv2bis, interp2
 import scipy
+from skimage import exposure
 
 
 def conv2SepMatlabbis(I, fen):
@@ -23,7 +23,7 @@ def conv2SepMatlabbis(I, fen):
 
 def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None):
 
-    W = lambda x: conv2Sep(x, np.ones([2*radius+1, 1]))/(2*radius + 1)
+    W = lambda x: conv2SepMatlabbis(x, np.ones([2*radius+1, 1]))/(2*radius + 1)
     I0 = I0.astype(np.float32)
     I1 = I1.astype(np.float32)
     if uinit is None:
@@ -34,7 +34,7 @@ def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None
         v = np.zeros(I1.shape)
     else:
         v = vinit
-    Ix, Iy = gradients(I0)
+    Ix, Iy = np.gradient(I0)
     Ixx = W(Ix*Ix) + talon
     Iyy = W(Iy*Iy) + talon
     Ixy = W(Ix*Iy)
@@ -55,7 +55,7 @@ def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None
     return u, v
 
 
-def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None,vinit=None):
+def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=None):
     if rank > 0:
         I0 = rank_filter_sup(I0, rank)
         I1 = rank_filter_sup(I1, rank)
@@ -108,8 +108,6 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
 
     H0 = I0
     H1 = I1
-
-    from skimage import data, exposure, img_as_float
 
     x = I0.shape[1]
     res_x = x % 8

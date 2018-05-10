@@ -1,16 +1,11 @@
 #!/usr/bin/python
 
 import numpy as np
-
-from scipy.io import loadmat
+import pylab as pl
 from scipy.ndimage import imread
 
-import pylab as pl
-
-from algorithm import GEFolki, EFolki, Folki
+from algorithm import GEFolki, EFolki
 from tools import wrapData
-
-from PIL import Image
 
 
 def demo():
