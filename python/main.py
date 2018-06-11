@@ -21,7 +21,10 @@ def demo():
 
     Ilidar_resampled = wrapData(Ilidar, u, v)
 
-    imsave('../datasets/lidar_georef_resampled.png', Ilidar_resampled)
+    out = (255 * (Ilidar_resampled - Ilidar_resampled.min()) /
+           (Ilidar_resampled.max() - Ilidar_resampled.min())).astype(np.uint8)
+
+    imsave('../datasets/lidar_georef_resampled.png', out)
 
     print("Fin recalage Lidar/Radar \n")
 
@@ -38,7 +41,12 @@ def demo():
 
     Ioptique_resampled = wrapData(Ioptique, u, v)
 
-    imsave('../datasets/optiquehr_georef_resampled.png', Ioptique_resampled)
+    out = (255 * (Ioptique_resampled - Ioptique_resampled.min()) /
+           (Ioptique_resampled.max() - Ioptique_resampled.min())).astype(np.uint8)
+
+    imsave('../datasets/optiquehr_georef_resampled.png', out)
+
+    print("Fin recalage optique/Radar \n")
 
 
 if __name__ == '__main__':
