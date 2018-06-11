@@ -17,8 +17,8 @@ def demo():
     Iradar = Iradar.astype(np.float32)/255
     Ilidar = Ilidari.astype(np.float32)/255
 
-    u, v = EFolki(Iradar, Ilidar, iteration=2, radius=[
-                  32, 24, 16, 8], rank=4, levels=5)
+    u, v = EFolki(Iradar, Ilidar, iteration=2,
+                  radius=range(32, 4, -4), rank=4, levels=6)
 
     Ilidar_resampled = wrapData(Ilidar, u, v)
 
