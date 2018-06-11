@@ -115,10 +115,10 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     res_y = y % 8
     add_y = 8 - y % 8 if res_y > 0 else 0
 
-    H0 = I0
-
     if res_x > 0 or res_y > 0:
         H0 = transform.resize(I0, (y+add_y, x+add_x), preserve_range=True, mode='constant', order=1)
+    else:
+        H0 = I0
 
     H0 = np.uint8(255 * H0 / np.amax(H0))
     H0 = exposure.equalize_adapthist(H0, 8, clip_limit=1, nbins=256)
@@ -141,6 +141,8 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
 
     if res_x > 0 or res_y > 0:
         H1 = transform.resize(I1, (y+add_y, x+add_x), preserve_range=True, mode='constant', order=1)
+    else:
+        H1 = I1
 
     H1 = np.uint8(255 * H1 / np.amax(H1))
     H1 = exposure.equalize_adapthist(H1, 8, clip_limit=1, nbins=256)
