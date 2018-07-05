@@ -19,8 +19,8 @@ im2 = imread('../datasets/ew_2.tif')
 ################
 
 # Compute the flow
-u, v, crit = GEFolki(im1, im2, iteration=2, radius=range(32, 4, -4),
-                     rank=4, levels=6, return_criterion=True)
+u, v = GEFolki(im1, im2, iteration=2, radius=range(32, 4, -4),
+               rank=4, levels=6)
 
 # Resample the image
 im2_resampled = wrapData(im2, u, v)
