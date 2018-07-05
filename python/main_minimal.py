@@ -2,7 +2,6 @@
 
 import numpy as np
 from scipy.ndimage import imread
-from skimage.io import imsave
 
 from algorithm import GEFolki, EFolki
 from tools import wrapData
@@ -20,7 +19,7 @@ def demo():
     u, v = EFolki(Iradar, Ilidar, iteration=2,
                   radius=range(32, 4, -4), rank=4, levels=6)
 
-    Ilidar_resampled = wrapData(Ilidar, u, v)
+    wrapData(Ilidar, u, v)
 
     print("Fin recalage Lidar/Radar \n")
 
@@ -36,7 +35,7 @@ def demo():
     u, v = GEFolki(Iradar, Ioptique, iteration=2,
                    radius=range(32, 4, -4), rank=4, levels=6)
 
-    Ioptique_resampled = wrapData(Ioptique, u, v)
+    wrapData(Ioptique, u, v)
 
     print("Fin recalage optique/Radar \n")
 
