@@ -23,12 +23,14 @@ class BurtOF:
             Py1.append(self.pyrUp(Py1[-1]))
 
         if "uinit" in kparams and kparams["uinit"] is not None:
-            u = kparams["uinit"][::2**self.levels, ::2**self.levels]
+            u = kparams["uinit"][::2**self.levels,
+                                 ::2**self.levels] / 2**self.levels
         else:
             u = np.zeros(Py0[-1].shape)
 
         if "vinit" in kparams and kparams["vinit"] is not None:
-            v = kparams["vinit"][::2**self.levels, ::2**self.levels]
+            v = kparams["vinit"][::2**self.levels,
+                                 ::2**self.levels] / 2**self.levels
         else:
             v = np.zeros(Py0[-1].shape)
 
