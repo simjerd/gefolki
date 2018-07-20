@@ -22,8 +22,8 @@ class BurtOF:
             Py0.append(self.pyrUp(Py0[-1]))
             Py1.append(self.pyrUp(Py1[-1]))
 
-        u = np.zeros(Py0[-1].shape)
-        v = np.zeros(Py0[-1].shape)
+        u = kparams.get('uinit', np.zeros(Py0[-1].shape))
+        v = kparams.get('vinit', np.zeros(Py0[-1].shape))
 
         for i in range(self.levels, -1, -1):
             kparams['uinit'] = u
