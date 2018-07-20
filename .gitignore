@@ -3,3 +3,5 @@
 *.tif
 
 *.mat
+
+python/\.vscode/
